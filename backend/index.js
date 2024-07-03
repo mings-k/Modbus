@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const client = new ModbusRTU();
 
 // modbus 통신을 위한 연결
-client.connectTCP("172.30.1.51", { port: 502 }, function (err) {
+client.connectTCP("Slave의 ip를 입력하세요", { port: 502 }, function (err) {
     if (err) {
         console.error("Connection Error:", err);
         return;
@@ -46,6 +46,15 @@ io.on('connection', (socket) => {
         try {
             const data = await readData();
             socket.emit('0', data[0]);
+            socket.emit('1', data[0]);
+            socket.emit('2', data[0]);
+            socket.emit('3', data[0]);
+            socket.emit('4', data[0]);
+            socket.emit('5', data[0]);
+            socket.emit('6', data[0]);
+            socket.emit('7', data[0]);
+            socket.emit('8', data[0]);
+            socket.emit('9', data[0]);
         } catch (err) {
             console.error(err);
         }
