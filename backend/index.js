@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const client = new ModbusRTU();
 
 // modbus 통신을 위한 연결
-client.connectTCP("Slave의 ip를 입력하세요", { port: 502 }, function (err) {
+client.connectTCP("slave ip", { port: 502 }, function (err) {
     if (err) {
         console.error("Connection Error:", err);
         return;

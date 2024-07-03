@@ -11,10 +11,10 @@ function Mdbus(){
             setMessage(data);
         };
 
-        socket.on('modbusData', handleServerData);
+        socket.on('0', handleServerData);
 
         return () => {
-            socket.off('modbusData', handleServerData);
+            socket.off('0', handleServerData);
         };
     }, []);
 
