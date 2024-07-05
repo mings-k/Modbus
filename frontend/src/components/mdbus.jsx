@@ -18,25 +18,25 @@ function Mdbus(){
             setMessage2(data);
         };
 
-        socket.on('PLC_1', handleServerData1);
-        socket.on('PLC_2', handleServerData2);
+        socket.on('PLC_0', handleServerData1);
+        socket.on('PLC_3', handleServerData2);
 
         return () => {
-            socket.off('PLC_1', handleServerData1);
-            socket.off('PLC_2', handleServerData2);
+            socket.off('PLC_0', handleServerData1);
+            socket.off('PLC_3', handleServerData2);
         };
     }, []);
 
     return (
         <div className="Mdbus" style={{ display: 'flex', justifyContent: 'space-around' }}>
             <div style={{ textAlign: 'center' }}>
-                <h1>ADD ID(1) 메세지</h1>
+                <h1>0X 메세지</h1>
                 {message1.map((msg, index) => (
-                    <h2 key={index}>{index} : {msg}</h2>
+                    <h2 key={index}>{index} : {msg.toString()}</h2>
                 ))}
             </div>
             <div style={{ textAlign: 'center' }}>
-                <h1>ADD ID(2) 메세지</h1>
+                <h1>3X 메세지</h1>
                 {message2.map((msg, index) => (
                     <h2 key={index}>{index} : {msg}</h2>
                 ))}

@@ -6,23 +6,38 @@ const express = require('express');
 const app = express();
 const server = http.createServer(app);
 
-const client = new ModbusRTU();
+const client0 = new ModbusRTU();
+const client3 = new ModbusRTU();
 
-// modbus 통신을 위한 연결
-client.connectTCP("연결 ip", { port: 502 }, function (err) {
+const MODBUS_IP = "";  // Modbus 장치의 IP 주소
+const MODBUS_PORT = 502;      // Modbus TCP 포트
+
+// client0: Coils 데이터를 읽기 위한 연결 설정
+client0.connectTCP(MODBUS_IP, { port: MODBUS_PORT }, function (err) {
     if (err) {
-        console.error("Connection Error:", err);
+        console.error("Connection Error for client0:", err);
         return;
     }
-    console.log("Connected to Modbus server");
-    client.setID(2);
+    console.log("Connected to Modbus server for client0");
+    client0.setID(1);
 });
 
-function readData() {
+// client3: Holding Registers 데이터를 읽기 위한 연결 설정
+client3.connectTCP(MODBUS_IP, { port: MODBUS_PORT }, function (err) {
+    if (err) {
+        console.error("Connection Error for client3:", err);
+        return;
+    }
+    console.log("Connected to Modbus server for client3");
+    client3.setID(1);
+});
+
+// client0: Coils 데이터를 읽기 위한 함수
+function readData0() {
     return new Promise((resolve, reject) => {
-        client.readHoldingRegisters(0, 10, function (err, data) {
+        client0.readCoils(0, 10, function (err, data) {
             if (err) {
-                reject("Read Error:", err);
+                reject("Read Error for client0:", err);
             } else {
                 resolve(data.data);
             }
@@ -30,10 +45,23 @@ function readData() {
     });
 }
 
-// modbus data를 전송하기 위한 websocket 사용
+// client3: Holding Registers 데이터를 읽기 위한 함수 (0번부터 10개의 레지스터를 읽음)
+function readData3() {
+    return new Promise((resolve, reject) => {
+        client3.readHoldingRegisters(0, 10, function (err, data) {
+            if (err) {
+                reject("Read Error for client3:", err);
+            } else {
+                resolve(data.data);
+            }
+        });
+    });
+}
+
+// modbus data를 전송하기 위한 websocket 설정
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000", // change to localhost
+        origin: "http://localhost:3000", // 클라이언트 주소
         methods: ["GET", "POST"],
     }
 });
@@ -44,8 +72,13 @@ io.on('connection', (socket) => {
 
     const interval = setInterval(async () => {
         try {
-            const data = await readData();
-            socket.emit('PLC_1', data);
+            const data0 = await readData0();
+            const data3 = await readData3();
+
+            console.log(data0);
+
+            socket.emit('PLC_0', data0);
+            socket.emit('PLC_3', data3);
         } catch (err) {
             console.error(err);
         }
