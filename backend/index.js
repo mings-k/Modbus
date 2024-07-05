@@ -9,13 +9,13 @@ const server = http.createServer(app);
 const client = new ModbusRTU();
 
 // modbus 통신을 위한 연결
-client.connectTCP("slave ip", { port: 502 }, function (err) {
+client.connectTCP("연결 ip", { port: 502 }, function (err) {
     if (err) {
         console.error("Connection Error:", err);
         return;
     }
     console.log("Connected to Modbus server");
-    client.setID(1);
+    client.setID(2);
 });
 
 function readData() {
@@ -45,16 +45,7 @@ io.on('connection', (socket) => {
     const interval = setInterval(async () => {
         try {
             const data = await readData();
-            socket.emit('0', data[0]);
-            socket.emit('1', data[0]);
-            socket.emit('2', data[0]);
-            socket.emit('3', data[0]);
-            socket.emit('4', data[0]);
-            socket.emit('5', data[0]);
-            socket.emit('6', data[0]);
-            socket.emit('7', data[0]);
-            socket.emit('8', data[0]);
-            socket.emit('9', data[0]);
+            socket.emit('PLC_1', data);
         } catch (err) {
             console.error(err);
         }
