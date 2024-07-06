@@ -31,6 +31,7 @@ function Mdbus(){
         <div className="Mdbus" style={{ display: 'flex', justifyContent: 'space-around' }}>
             <div style={{ textAlign: 'center' }}>
                 <h1>0X 메세지</h1>
+                {/* 0X 메세지는 True || False 값이므로 .toString을 사용 */}
                 {message1.map((msg, index) => (
                     <h2 key={index}>{index} : {msg.toString()}</h2>
                 ))}
