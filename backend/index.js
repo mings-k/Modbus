@@ -40,6 +40,8 @@ function readData0() {
                 reject("Read Error for client0:", err);
             } else {
                 resolve(data.data);
+                console.log("data.data000:", data.data); // 값 출력
+                console.log("타입000:", typeof data.data[0]); // 타입 출력
             }
         });
     });
@@ -53,6 +55,8 @@ function readData3() {
                 reject("Read Error for client3:", err);
             } else {
                 resolve(data.data);
+                console.log("data.data333:", data.data); // 값 출력
+                console.log("타입333:", typeof data.data); // 타입 출력
             }
         });
     });
@@ -75,10 +79,10 @@ io.on('connection', (socket) => {
             const data0 = await readData0();
             const data3 = await readData3();
 
-            console.log(data0);
+            console.log(data3);
 
-            socket.emit('PLC_0', data0);
-            socket.emit('PLC_3', data3);
+            socket.emit('0', data0);
+            socket.emit('3', data3);
         } catch (err) {
             console.error(err);
         }

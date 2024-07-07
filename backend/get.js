@@ -1,12 +1,4 @@
-const readData = require('./index');
+a = [1,2,3,4]
+b = JSON.parse(a)
 
-async function fetchData() {
-    try {
-        const data = await readData();
-        console.log("Modbus Data:", data);
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-setInterval(fetchData, 1000);
+console.log(typeof b);
