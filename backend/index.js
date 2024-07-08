@@ -94,6 +94,7 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3001, () => {
+// '0.0.0.0'을 이용하여 모든 인터페이스에서 수신할 수 있도록 설정
+server.listen(3001, '0.0.0.0', () => {
     console.log('Server is listening on port 3001');
 });
