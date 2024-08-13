@@ -1,12 +1,12 @@
 import io from 'socket.io-client';
 import React, { useEffect, useState } from 'react';
-const socket = io.connect("http://localhost:3001"); // 서버의 IP 주소 확인
+const socket = io.connect(""); // 서버의 IP 주소 확인
 
 
 
 function Mdbus(){
     const [message1, setMessage1] = useState([]);
-
+    
     const [message2, setMessage2] = useState([]);
 
     useEffect(() => {
@@ -18,12 +18,12 @@ function Mdbus(){
             setMessage2(data);
         };
 
-        socket.on('PLC_0', handleServerData1);
-        socket.on('PLC_3', handleServerData2);
+        socket.on('0', handleServerData1);
+        socket.on('3', handleServerData2);
 
         return () => {
-            socket.off('PLC_0', handleServerData1);
-            socket.off('PLC_3', handleServerData2);
+            socket.off('0', handleServerData1);
+            socket.off('3', handleServerData2);
         };
     }, []);
 
