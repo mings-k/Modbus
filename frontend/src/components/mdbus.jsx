@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import React, { useEffect, useState } from 'react';
-const socket = io.connect(""); // 서버의 IP 주소 확인
+const socket = io.connect("http://127.0.0.1:3001"); // 서버의 IP 주소 확인
 
 
 
